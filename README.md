@@ -1,1 +1,1 @@
-# GifTastic-API
+# Giftastic-API
