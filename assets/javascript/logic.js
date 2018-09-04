@@ -1,14 +1,8 @@
 // Starting array for food types
-var foodTypes = ["pancakes", "ramen", "coffee", "mac & cheese", "fries", "tacos"];
+var foodTypes = ["pancakes", "ramen", "coffee", "macaroni & cheese", "fries", "tacos"];
 
-// Render initial buttons
-renderButtons();
-
-// Add click event listeners to all elements with "food" class
-$(document).on("click", ".food", displayFood);
-
-// In the event that the add button is clicked
-$("#add-food").on("click", function(event){
+// Create a button in the event that the add button is clicked
+$("#add-food").on("click", function (event) {
     event.preventDefault();
     var food = $("#food-input").val().trim();
     foodTypes.push(food);
@@ -29,6 +23,12 @@ function renderButtons() {
     }
 }
 
+// Render initial buttons
+renderButtons();
+
+// Add click event listeners to all elements with "food" class
+$(document).on("click", ".food", displayFood);
+
 // Function for displaying the appropriate content from the API
 function displayFood() {
 
@@ -38,18 +38,38 @@ function displayFood() {
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
 
+        var results = response.data;
 
+        // Generate initial still images & rating
+        for (var i = 0; i < 10; i++) {
 
+            var stillSource = results[i].images.fixed_height_still.url;
+            var animatedSource = results[i].images.fixed_height.url;
+            var foodImage = $("<img>");
+            foodImage.attr("src", stillSource).addClass("gif").attr("data-still", stillSource).attr("data-animate", animatedSource).attr("data-state", "still");
 
+            var rating = results[i].rating;
+            var p = $("<p>")
+            p.text("Rating: " + rating.toUpperCase());
 
+            $("#food-view").prepend(foodImage, p);
+        };
 
+        // Ability to pause/animate gif on click
+        $(".gif").on("click", function () {
 
+            var still = $(this).attr("data-still");
+            var animate = $(this).attr("data-animate");
+            var state = $(this).attr("data-state");
 
-
+            if (state === "still") {
+                $(this).attr("src", animate).attr("data-state", "animate");
+            }
+            else {
+                $(this).attr("src", still).attr("data-state", "still");
+            }
+        });
     });
-}
-
-// To-do
-// Make it so that there cannot be repeat buttons
+};
