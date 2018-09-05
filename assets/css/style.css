@@ -1,0 +1,27 @@
+p {
+    font-size: 12px;
+}
+button {
+    background: rgb(184, 209, 243);
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 0;
+}
+h1 {
+    font-family: 'Roboto Slab', serif;
+    text-align: center;
+    font-size: 50px;
+}
+.container {
+    margin-top: 50px;
+}
+#food-form {
+    font-size: 15px;
+}
+.gif {
+    margin: 5px;
+}
+.foodDiv {
+    float: left;
+}
